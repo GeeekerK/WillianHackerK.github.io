@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wangweibk.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="二维码(QR Code)基本知识1.二维码定义：　　二维码（2-Dimensional Bar Code），是用某种特定的几何图形按一定规律在平面（二维方向上）分布的黑白相间的图形记录数据符号信息的。它是指在一维条码的基础上扩展出另一维具有可读性的条码，使用黑白矩形图案表示二进制数据，被设备扫描后可获取其中所包含的信息。一维条码的宽度记载着数据，而其长度没有记载数据。二维条码的长度、宽度均记载着数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF基础知识">
+<meta property="og:url" content="http://wangweibk.top/2022/10/03/CTF%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="Geeker BLOG">
+<meta property="og:description" content="二维码(QR Code)基本知识1.二维码定义：　　二维码（2-Dimensional Bar Code），是用某种特定的几何图形按一定规律在平面（二维方向上）分布的黑白相间的图形记录数据符号信息的。它是指在一维条码的基础上扩展出另一维具有可读性的条码，使用黑白矩形图案表示二进制数据，被设备扫描后可获取其中所包含的信息。一维条码的宽度记载着数据，而其长度没有记载数据。二维条码的长度、宽度均记载着数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927232735278-86372141.png">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927232853903-1483855321.png">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927233836262-2144664098.png">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927233843528-855848180.png">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927235609731-1556177515.png">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170928000243669-1523455241.png">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170928000642294-877861747.png">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170928000649794-930938704.png">
+<meta property="og:image" content="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170928001058294-1656872680.png">
+<meta property="article:published_time" content="2022-10-03T14:27:17.000Z">
+<meta property="article:modified_time" content="2023-04-05T07:00:15.985Z">
+<meta property="article:author" content="王伟">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927232735278-86372141.png">
+
+<link rel="canonical" href="http://wangweibk.top/2022/10/03/CTF%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CTF基础知识 | Geeker BLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Geeker BLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活的点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://wangweibk.top/2022/10/03/CTF%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg#">
+      <meta itemprop="name" content="王伟">
+      <meta itemprop="description" content="你想拥有你从未拥有的东西，那就要去做你从未做过的事。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Geeker BLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CTF基础知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-03 22:27:17" itemprop="dateCreated datePublished" datetime="2022-10-03T22:27:17+08:00">2022-10-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-05 15:00:15" itemprop="dateModified" datetime="2023-04-05T15:00:15+08:00">2023-04-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="二维码-QR-Code-基本知识"><a href="#二维码-QR-Code-基本知识" class="headerlink" title="二维码(QR Code)基本知识"></a>二维码(QR Code)基本知识</h1><h2 id="1-二维码定义："><a href="#1-二维码定义：" class="headerlink" title="1.二维码定义："></a>1.二维码定义：</h2><p>　　二维码（2-Dimensional Bar Code），是用某种特定的几何图形按一定规律在平面（二维方向上）分布的黑白相间的图形记录数据符号信息的。它是指在一维条码的基础上扩展出另一维具有可读性的条码，使用黑白矩形图案表示二进制数据，被设备扫描后可获取其中所包含的信息。一维条码的宽度记载着数据，而其长度没有记载数据。二维条码的长度、宽度均记载着数据。二维条码有一维条码没有的“定位点”和“容错机制”。容错机制在即使没有辨识到全部的条码、或是说条码有污损时，也可以正确地还原条码上的信息。</p>
+<h2 id="2-类别："><a href="#2-类别：" class="headerlink" title="2.类别："></a>2.类别：</h2><p>　　二维条码的种类很多，不同的机构开发出的二维条码具有不同的结构以及编写、读取方法。常见的二维码有：PDF417码、QR码、汉信码、颜色条码、quick mark code、data matrix</p>
+<p>一维码　　　　　　　　　　　　　　　　　　　　　　　　二维码</p>
+<p><img src="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927232735278-86372141.png" alt="img">　　　　　　　　　　　　　　<img src="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927232853903-1483855321.png" alt="img"></p>
+<p>　　一维条码——Code 128　　　　　　　　　　　　　　较为常见的二维条码——QR码</p>
+<p>   仅有横向信息　　　　　　　　　　　　　　　　　　　　　横行纵向都包含信息</p>
+<h3 id="3-定位标记"><a href="#3-定位标记" class="headerlink" title="3.定位标记"></a>3.定位标记</h3><p>　　二维条码通常有特定的定位标记（如QR码为三个大的定位点），通过定位标记使读码机正确辨识进行解读，所以二维条码不管是从何种方向读取都可以被辨识。</p>
+<p>4.特性</p>
+<p>　　二维条码比一维条码记载数据量更多。而且可以记载更复杂的数据，比如图片链接、网络链接等。</p>
+<p>5.QR码</p>
+<p>　　QR码（全称为快速响应矩阵码；英语：Quick Response Code）是二维条码的一种，于1994年由日本DENSO WAVE公司发明。QR来自英文Quick Response的缩写，即快速反应，因为发明者希望QR码可以让其内容快速被解码。QR码使用四种标准化编码模式（数字，字母数字，字节（二进制）和汉字）来存储数据。QR码最常见于日本，为目前日本最流行的二维空间条码。QR码比较普通条码可以存储更多数据，也无需要像普通条码般在扫描时需要直线对准扫描仪。因此其应用范围已经扩展到包括产品跟踪，物品识别，文档管理，营销等方面。</p>
+<p>　　（1）简介</p>
+<p>　　　　QR码呈正方形，常见的是黑白两色。在3个角落，印有较小，像“回”字的正方图案。这3个是帮助解码软件定位的图案，用户不需要对准，无论以任何角度扫描，数据仍然可以正确被读取。<br>　　　　日本QR码的标准JIS X 0510在1999年1月发布，而其对应的ISO国际标准ISO&#x2F;IEC18004，则在2000年6月获得批准。根据Denso Wave公司的网站数据，QR码是属于开放式的标准，QR码的规格公开，虽由Denso Wave公司持有的专利权益，但不会被运行。<br>除了标准的QR码之外，也存在一种称为“微型QR码”的格式，是QR码标准的缩小版本，主要是为了无法处理较大型扫描的应用而设计。微型QR码同样有多种标准，最高可存储35个字元。</p>
+<p>　　（2）技术特征</p>
+<p> 　　　　　<img src="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927233836262-2144664098.png" alt="img"><img src="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927233843528-855848180.png" alt="img"></p>
+<p>　　　　如上图时一个qrcode的基本结构，其中：<br>　　　　位置探测图形、位置探测图形分隔符、定位图形：<br>　　　　用于对二维码的定位，对每个QR码来说，位置都是固定存在的，只是大小规格会有所差异；<br>　　　　校正图形：规格确定，校正图形的数量和位置也就确定了；<br>　　　　格式信息：表示改二维码的纠错级别，分为L、M、Q、H；<br>　　　　版本信息：即二维码的规格，QR码符号共有40种规格的矩阵（一般为黑白色），从21x21（版本1），到177x177（版本40），每一版本符号比前一版本 每边增加4个模块。<br>　　　　二维码一共有 40 个尺寸。官方叫版本 Version。Version 1 是 21 x 21 的矩阵，Version 2 是 25 x 25 的矩阵，Version 3 是 29 的尺寸，每增加一个 version，就会增加 4 的尺寸，公式是：(V-1)*4 + 21（V是版本号） 最高 Version 40，(40-1)*4+21 &#x3D; 177，所以最高是 177 x 177 的正方形。<br>　　　　数据和纠错码字：实际保存的二维码信息，和纠错码字（用于修正二维码损坏带来的错误）。</p>
+<p>　　（3）存储</p>
+<p>　　　　Qr码一共提供40种不同版本存储密度的结构，对应指示图的“版本信息”，版本1为21<em>21像素，每升一个版本长宽各增加4像素，最大的版本40为177</em>177像素。</p>
+<table>
+<thead>
+<tr>
+<th>QR码最大数据容量（对于版本40）</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数字</td>
+<td>最多7089字元</td>
+</tr>
+<tr>
+<td>字母</td>
+<td>最多4296字元</td>
+</tr>
+<tr>
+<td>二进制数（8bit）</td>
+<td>最多2953字节</td>
+</tr>
+<tr>
+<td>日文汉子&#x2F;片假名</td>
+<td>最多1,817字元（采用Shift JIS）</td>
+</tr>
+<tr>
+<td>中文汉子</td>
+<td>最多984字元（采用UTF-8）</td>
+</tr>
+<tr>
+<td></td>
+<td>最多1,800字元（采用BIG5&#x2F;GB2312）提供40种不同版本存储密度的结构，对应指示图的“版本信息”，版本1为21×21像素，每机一级长宽各增加4像素，最大的版本40为177×177像素。</td>
+</tr>
+</tbody></table>
+<p>　　　　对于不同版本的二维码，容量也是不同的。理论上内容经过压缩处理后可以存7089个数字，4296 个字母和数字混合字符，2953个8位字节数据，1817个汉字；在上面我们看到，不同的Version的QR Code是不同的矩阵，Version版本越过，也就意味着容量越大。关于容量的计算我没有找到比较权威的算法，这里以第一版的来进行计算，第一版（21×21）的格式如下：</p>
+<p>　　　　　　　　　　　　　　<img src="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170927235609731-1556177515.png" alt="img"></p>
+<p>　　　　其中的只有黄色的是存储数据的内容，在第一版本中只有217（21×21 - 8<em>9</em>3 -8）个存储数据的数空间，而其中有用的数据是 217 - 1个数据结尾标志 &#x3D; 216 ，在216bit<br>　　　　216bit&#x2F;8 &#x3D; 27Byte 在版本一的QR码中只能够存储27Byte的数据（要是有校验容错就更少了），当然在不同的容错级别下，容量也是有变化的。<br>　　　　所以，version为1的QR Code大概也就能容下十几个字符。</p>
+<h2 id="（4）容错能力"><a href="#（4）容错能力" class="headerlink" title="（4）容错能力"></a>（4）容错能力</h2><p>　　　　QR码有容错能力，QR码图形如果有破损，仍然可以被机器读取内容，最高可以到7%~30%面积破损仍可被读取。所以QR码可以被广泛使用在运输外箱上。<br>　　　　相对而言，容错率愈高，QR码图形面积愈大。所以一般折衷使用15%容错能力。</p>
+<table>
+<thead>
+<tr>
+<th>错误修正容量</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>L水平</td>
+<td>7%的字码可被修正</td>
+</tr>
+<tr>
+<td>M水平</td>
+<td>15%的字码可被修正</td>
+</tr>
+<tr>
+<td>Q水平</td>
+<td>25%的字码可被修正</td>
+</tr>
+<tr>
+<td>H水平</td>
+<td>30%的字码可被修正</td>
+</tr>
+</tbody></table>
+<h2 id="（5）编码"><a href="#（5）编码" class="headerlink" title="（5）编码"></a>（5）编码</h2><p>　　　　QR 码支持如下的编码：<br>　　　　Numeric mode 数字编码，从 0 到9。如果需要编码的数字的个数不是 3 的倍数，那么，最后剩下的 1 或 2 位数会被转成 4 或 7bits，则其它的每 3 位数字会被编成 10，12，14bits，编成多长还要看二维码的尺寸（下面有一个表 Table 3 说明了这点）<br>　　　　Alphanumeric mode 字符编码。包括 0-9，大写的A到Z（没有小写），以及符号$ % * + – . &#x2F; : 包括空格。这些字符会映射成一个字符索引表。如下所示：（其中的 SP 是空格，Char 是字符，Value 是其索引值） 编码的过程是把字符两两分组，然后转成下表的 45 进制，然后转成 11bits 的二进制，如果最后有一个落单的，那就转成 6bits 的二进制。而编码模式和字符的个数需要根据不同的 Version 尺寸编成9, 11 或 13 个二进制（如下表中 Table 3）</p>
+<p> 　　　　　　　　　　　　　　　　　　　　　　　<img src="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170928000243669-1523455241.png" alt="img"></p>
+<p>　　　　Byte mode, 字节编码，可以是0-255 的 ISO-8859-1 字符。有些二维码的扫描器可以自动检测是否是 UTF-8 的编码。</p>
+<h2 id="6-编码过程"><a href="#6-编码过程" class="headerlink" title="6.编码过程"></a>6.编码过程</h2><p>　　　　简要的编码过程：<br>   　　　　1. 数据分析：确定编码的字符类型，按相应的字符集转换成符号字符； 选择纠错等级，在规格一定的条件下，纠错等级越高其真实数据的容量越小。<br>   　　　　2. 数据编码：将数据字符转换为位流，每8位一个码字，整体构成一个数据的码字序列。其实知道这个数据码字序列就知道了二维码的数据内容。</p>
+<p> 　　　　　　　　　　　　　　　<img src="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170928000642294-877861747.png" alt="img">  <img src="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170928000649794-930938704.png" alt="img"></p>
+<p>　　　　数据可以按照一种模式进行编码，以便进行更高效的解码，例如：对数据：01234567编码（版本1-H），<br>　　　　1）分组：012 345 67<br>　　　　2）转成二进制：012→0000001100<br>　　　　　　　　　　　  345→0101011001<br>　　　　　　　　　　　  67 →1000011<br>　　　　3）转成序列：0000001100 0101011001 1000011<br>　　　　4）字符数 转成二进制：8→0000001000<br>　　　　5）加入模式指示符（上图数字）0001：0001 0000001000 0000001100 0101011001 1000011<br>　　　　对于字母、中文、日文等只是分组的方式、模式等内容有所区别。基本方法是一致的</p>
+<p>3.纠错编码</p>
+<p>　　　　按需要将上面的码字序列分块，并根据纠错等级和分块的码字，产生纠错码字，并把纠错码字加入到数据码字序列后面，成为一个新的序列。<br>　　　　在二维码规格和纠错等级确定的情况下，其实它所能容纳的码字总数和纠错码字数也就确定了，比如：版本10，纠错等级时H时，总共能容纳346个码字，其中224个纠错码字。<br>　　　　就是说二维码区域中大约1&#x2F;3的码字时冗余的。对于这224个纠错码字，它能够纠正112个替代错误（如黑白颠倒）或者224个据读错误（无法读到或者无法译码），<br>　　　　这样纠错容量为：112&#x2F;346&#x3D;32.4%</p>
+<p>4.构造最终数据信息：<br>　　　　在规格确定的条件下，将上面产生的序列按次序放如分块中<br>　　　　按规定把数据分块，然后对每一块进行计算，得出相应的纠错码字区块，把纠错码字区块 按顺序构成一个序列，添加到原先的数据码字序列后面。<br>　　　　如：D1, D12, D23, D35, D2, D13, D24, D36, … D11, D22, D33, D45, D34, D46, E1, E23,E45, E67, E2, E24, E46, E68，…</p>
+<p>5.构造矩阵：<br>　　　　将探测图形、分隔符、定位图形、校正图形和码字模块放入矩阵中。</p>
+<p> 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<img src="https://images2017.cnblogs.com/blog/1247716/201709/1247716-20170928001058294-1656872680.png" alt="img"></p>
+<p>　　　　　把上面的完整序列填充到相应规格的二维码矩阵的区域中</p>
+<p>6.掩摸：将掩摸图形用于符号的编码区域，使得二维码图形中的深色和浅色（黑色和白色）区域能够比率最优的分布。<br>　　　　一个算法，不研究了，有兴趣的同学可以继续。</p>
+<h2 id="7-格式和版本信息：生成格式和版本信息放入相应区域内。"><a href="#7-格式和版本信息：生成格式和版本信息放入相应区域内。" class="headerlink" title="7.格式和版本信息：生成格式和版本信息放入相应区域内。"></a>7.格式和版本信息：生成格式和版本信息放入相应区域内。</h2><p>版本7-40都包含了版本信息，没有版本信息的全为0。二维码上两个位置包含了版本信息，它们是冗余的。<br>版本信息共18位，6X3的矩阵，其中6位时数据为，如版本号8，数据位的信息时 001000，后面的12位是纠错位。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"># 基础</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/30/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/03/CTF%E5%B7%A5%E5%85%B7%E7%AE%B1/" rel="next" title="CTF工具箱">
+      CTF工具箱 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E7%A0%81-QR-Code-%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">二维码(QR Code)基本知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BA%8C%E7%BB%B4%E7%A0%81%E5%AE%9A%E4%B9%89%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">1.二维码定义：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%B1%BB%E5%88%AB%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">2.类别：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%9A%E4%BD%8D%E6%A0%87%E8%AE%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">3.定位标记</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%884%EF%BC%89%E5%AE%B9%E9%94%99%E8%83%BD%E5%8A%9B"><span class="nav-number">1.3.</span> <span class="nav-text">（4）容错能力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%885%EF%BC%89%E7%BC%96%E7%A0%81"><span class="nav-number">1.4.</span> <span class="nav-text">（5）编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%BC%96%E7%A0%81%E8%BF%87%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">6.编码过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%A0%BC%E5%BC%8F%E5%92%8C%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF%EF%BC%9A%E7%94%9F%E6%88%90%E6%A0%BC%E5%BC%8F%E5%92%8C%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF%E6%94%BE%E5%85%A5%E7%9B%B8%E5%BA%94%E5%8C%BA%E5%9F%9F%E5%86%85%E3%80%82"><span class="nav-number">1.6.</span> <span class="nav-text">7.格式和版本信息：生成格式和版本信息放入相应区域内。</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="王伟"
+      src="/images/avatar.jpg#">
+  <p class="site-author-name" itemprop="name">王伟</p>
+  <div class="site-description" itemprop="description">你想拥有你从未拥有的东西，那就要去做你从未做过的事。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王伟</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
